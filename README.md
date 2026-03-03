@@ -168,6 +168,14 @@ Analyze my test suite and generate Playwright Java tests
 
 ---
 
+## � Author
+
+**Ankit Srivastava**
+- GitHub: [@ankitcoforge](https://github.com/ankitcoforge)
+- Repository: [framework-upgradation](https://github.com/ankitcoforge/framework-upgradation)
+
+---
+
 ## 📄 License
 
-MIT
+MIT — © 2026 Ankit Srivastava
