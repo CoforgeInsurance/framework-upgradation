@@ -1,0 +1,173 @@
+# 🎭 Framework Upgradation — Claude Skills
+
+A collection of **Claude AI skills** designed to automate the upgrade and migration of test automation frameworks to [Playwright](https://playwright.dev/). These skills are powered by [Claude's agent skill system](https://docs.anthropic.com/en/docs/claude-code/claude-md) and act as reusable, instruction-driven agents that can be invoked directly inside your workspace.
+
+---
+
+## 📁 Repository Structure
+
+```
+.claude/
+└── skills/
+    ├── java-to-playwright-typescript/
+    │   └── SKILL.md          ← Selenium Java → Playwright TypeScript migration
+    └── analyze-and-generate/
+        └── SKILL.md          ← Analyze any framework → Generate Playwright in any language
+```
+
+---
+
+## 🛠️ Skills Overview
+
+### 1. `java-to-playwright-typescript` — Selenium Java → Playwright TypeScript
+
+**Trigger:** Ask Claude to migrate a Selenium Java POM framework to Playwright TypeScript.
+
+**What it does:**
+- Performs a full codebase discovery (page objects, test classes, utilities, base classes, config, data providers, listeners, feature files)
+- Reads `.github/copilot-instructions.md` first and applies all project conventions
+- Maps every Java/Selenium concept to its idiomatic Playwright TypeScript equivalent
+- Generates a complete, runnable Playwright TypeScript project with:
+  - `playwright.config.ts`
+  - `package.json` + `tsconfig.json`
+  - Page objects using Playwright locator APIs (`getByRole`, `getByLabel`, `getByTestId`, etc.)
+  - Fixtures-based base test setup
+  - Full spec files — every `@Test` method migrated, zero omissions
+  - `.env.example` with all extracted config values
+- Enforces the **READ → MAP → WRITE → RUN → VERIFY** cycle for every test class, one at a time — no batching
+- Runs stub detection scan after generation — no `// TODO`, no `pass`, no empty bodies allowed
+- Executes per-spec verification to confirm every file launches without errors
+- Produces a test count parity report confirming 100% test case migration
+
+**Key guarantees:**
+| Guarantee | Detail |
+|---|---|
+| 0 test omissions | Every `@Test` method must appear in the output |
+| 0 skeleton stubs | Every test body contains real Playwright actions and assertions |
+| 0 explicit waits | `Thread.sleep()` / `WebDriverWait` eliminated — Playwright auto-waits |
+| 100% logic migration | All business logic, conditionals, data setup, and teardown migrated |
+| Per-spec execution | Every spec file is run and confirmed to launch cleanly |
+
+---
+
+### 2. `analyze-and-generate` — Analyze Any Framework → Generate Playwright
+
+**Trigger:** Ask Claude to analyze an existing test codebase and generate Playwright code in your preferred language.
+
+**What it does:**
+- Reads `.github/copilot-instructions.md` before any code generation — all project rules are respected
+- Detects the target language from user request, Copilot instructions, or existing codebase (TypeScript, JavaScript, Python, Java, C#)
+- Analyzes the full source project — framework, architecture, patterns, utilities, data strategy, reporters
+- Produces a detailed **Codebase Analysis Report** before writing any code
+- Maps every source concept to the correct Playwright equivalent for the target language
+- Generates a complete project scaffold (config, fixtures, page objects, utilities, test specs)
+- Enforces the **READ → MAP → WRITE → RUN → VERIFY** 5-step cycle for every test class
+- Applies stub detection and per-spec execution verification
+
+**Supported source frameworks:**
+| Source Framework | Detection |
+|---|---|
+| Selenium + TestNG / JUnit | ✅ |
+| Selenium + pytest | ✅ |
+| Cypress (JS/TS) | ✅ |
+| WebdriverIO | ✅ |
+| Puppeteer | ✅ |
+| Robot Framework | ✅ |
+| Cucumber (any driver) | ✅ |
+| Protractor | ✅ |
+| NightwatchJS | ✅ |
+
+**Supported output languages:**
+| Language | Test Runner |
+|---|---|
+| TypeScript | Playwright Test |
+| JavaScript | Playwright Test |
+| Python | pytest-playwright |
+| Java | JUnit 5 / TestNG |
+| C# | NUnit / MSTest |
+
+---
+
+## 🔄 The Mandatory Migration Process
+
+Both skills enforce a **5-step cycle** that must be completed for every test class — one at a time, no batching:
+
+```
+READ  →  MAP  →  WRITE  →  RUN  →  VERIFY
+```
+
+| Step | What happens |
+|---|---|
+| **READ** | Fully read the source class, all referenced page objects, helpers, base classes, data providers, and config |
+| **MAP** | Produce an explicit mapping table converting every source element to its Playwright equivalent |
+| **WRITE** | Write the complete spec file — every test body populated with real actions and assertions |
+| **RUN** | Execute the spec file in isolation and confirm it launches without import/syntax/fixture errors |
+| **VERIFY** | Log a ✅ COMPLETE entry with counts before moving to the next class |
+
+---
+
+## 🚀 How to Use
+
+### Prerequisites
+
+- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) installed in your editor
+- Your source test automation project open in the workspace
+
+### Setup
+
+1. **Clone this repository** or copy the `.claude/` folder into your project workspace:
+
+```bash
+git clone https://github.com/ankitcoforge/framework-upgradation.git
+cp -r framework-upgradation/.claude /your-project/
+```
+
+2. **(Optional but recommended)** Add a Copilot instructions file with your project conventions:
+
+```
+.github/copilot-instructions.md
+```
+
+### Invoke the Skills
+
+Open Claude Code in your workspace and use natural language:
+
+**For Selenium Java → Playwright TypeScript:**
+```
+Migrate my Selenium Java framework to Playwright TypeScript
+```
+
+**For any framework → any language:**
+```
+Analyze my Cypress project and generate equivalent Playwright tests in Python
+```
+```
+Convert my WebdriverIO framework to Playwright TypeScript
+```
+```
+Analyze my test suite and generate Playwright Java tests
+```
+
+---
+
+## ✅ Quality Enforcement Built Into the Skills
+
+| Rule | Enforced |
+|---|---|
+| Read Copilot instructions before any code generation | ✅ |
+| Full codebase analysis before writing | ✅ |
+| Per-class READ → MAP → WRITE → RUN → VERIFY cycle | ✅ |
+| No batching of classes | ✅ |
+| No skeleton stubs (`pass`, `// TODO`, empty body) | ✅ |
+| All business logic migrated (no simplification) | ✅ |
+| All assertions migrated (none dropped or weakened) | ✅ |
+| All data-driven rows preserved | ✅ |
+| No `sleep()` / `Thread.sleep()` in output | ✅ |
+| Per-spec execution verification | ✅ |
+| 100% test count parity report | ✅ |
+
+---
+
+## 📄 License
+
+MIT
